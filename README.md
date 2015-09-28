@@ -12,7 +12,7 @@ This README describes how to run and experiment with node.js modules as verticle
 ### Test ###
 
 * Copy the provided http-server.zip example zipped node.js module into a location of your choice (don't unzip)
-* If that location is served by a webserver, you can test it by using the http-service-factory, e.g.: vertx run http://127.0.0.1:8080/http-server.zip::package
-* If that location is just on your local fs, you can test it by using the nodejs-service-factory, e.g. vertx run nodejs:/some/directory/http-server.zip
+* If that location is served by a webserver, you can test it by using the http-service-factory, e.g.: bin/vertx run http://127.0.0.1:8080/http-server.zip::package
+* If that location is just on your local fs, you can test it by using the nodejs-service-factory, e.g. bin/vertx run nodejs:/some/directory/http-server.zip
 
 * node.js modules need to be zipped at their root (not including the module-name directory) and occasionally very slightly modified wrt their startup scripts, e.g. if the main script is provided under bin, this js file needs to be specified as value for the main property inside package.json or if the value of the main property inside package.json is lacking the proper .js extension, the .js extension may have to be added (at least when not going through service factories other than NodeJSServiceFactory, e.g. vertx-http-service-factory).
