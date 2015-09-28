@@ -1,6 +1,6 @@
 # README #
 
-This README describes how to run and experiment with node.js modules as verticles inside vert.x.
+This README describes how to run and experiment with node.js modules as verticles inside vert.x-x3.
 
 ### Setup ###
 
