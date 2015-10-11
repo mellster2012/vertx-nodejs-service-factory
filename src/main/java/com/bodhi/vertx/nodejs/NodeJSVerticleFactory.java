@@ -6,6 +6,7 @@ import io.apigee.trireme.core.ScriptFuture;
 import io.apigee.trireme.core.ScriptStatus;
 import io.apigee.trireme.core.ScriptStatusListener;
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Future;
 import io.vertx.core.Verticle;
 import io.vertx.core.impl.IsolatingClassLoader;
@@ -43,18 +44,29 @@ public class NodeJSVerticleFactory extends JSVerticleFactory {
   
   private static final Logger log = LoggerFactory.getLogger(NodeJSVerticleFactory.class);
 
-  private static final boolean ENABLE_NODEJS_VERTICLES = System.getProperty(ENABLE_NODEJS_VERTICLES_PROP_NAME) != null && checkNodeJSDependencies();
+  private static final boolean NODEJS_VERTICLES_ENABLED = checkNodeJSDependencies();
 
-  private static final String DISABLING_NODEJS_VERTICLES = "Disabling resolution of node.js verticles";
+  private static final String NODEJS_VERTICLES_DISABLED = "Resolution of node.js verticles disabled";
 	private static final String APIGEE_TRIREME_MISSING = "io.apigee.trireme:trireme-core, io.apigee.trireme:trireme-kernel, io.apigee.trireme:trireme-node10src, io.apigee.trireme:trireme-node12src, io.apigee.trireme:trireme-crypto, io.apigee.trireme:trireme-util v0.8.6 required on the classpath";
 	private static final String COMMONS_IO_MISSING = "commons-io:commons-io v2.4 required on the classpath";
 	private static final String RHINO_MISSING = "org.mozilla:rhino v1.7.7 required on the classpath";
 
+	@Override
+	public boolean requiresResolve() {
+		return true;
+	}
+	
+	@Override
+  public void resolve(String identifier, DeploymentOptions deploymentOptions, ClassLoader classLoader, Future<String> resolution) {
+    if (! NODEJS_VERTICLES_ENABLED) resolution.fail(NODEJS_VERTICLES_DISABLED);
+    else if (! IsolatingClassLoader.class.isAssignableFrom(classLoader.getClass())) resolution.fail("Isolating classloader required");
+    else if (! isNodeJS(classLoader)) resolution.fail("package.json with node engines entry or node_modules directory required");
+    else resolution.complete(identifier);
+  }
+	
   @Override
   public Verticle createVerticle(String verticleName, ClassLoader classLoader) throws Exception {
-    if (ENABLE_NODEJS_VERTICLES && IsolatingClassLoader.class.isAssignableFrom(classLoader.getClass()) && isNodeJS(classLoader))
-    	return new NodeJSVerticle(VerticleFactory.removePrefix(verticleName), classLoader);
-    return super.createVerticle(verticleName, classLoader);
+    return new NodeJSVerticle(VerticleFactory.removePrefix(verticleName), classLoader);
   }
   
   public class NodeJSVerticle extends AbstractVerticle {
@@ -192,21 +204,18 @@ public class NodeJSVerticleFactory extends JSVerticleFactory {
   		Class.forName("io.apigee.trireme.core.ScriptStatus");
   		Class.forName("io.apigee.trireme.core.ScriptStatusListener");  		
   	} catch (ClassNotFoundException ex) {
-  		log.warn(APIGEE_TRIREME_MISSING);
-  		log.warn(DISABLING_NODEJS_VERTICLES);
+    	log.warn(APIGEE_TRIREME_MISSING + " => " + NODEJS_VERTICLES_DISABLED);
   		return false;
   	}
   	try {
   		Class.forName("org.apache.commons.io.FilenameUtils");
   	} catch (ClassNotFoundException ex) {
-  		log.warn(COMMONS_IO_MISSING);
-  		log.warn(DISABLING_NODEJS_VERTICLES);  
+    	log.warn(COMMONS_IO_MISSING + " => " + NODEJS_VERTICLES_DISABLED);
   		return false;
   	}
     String version = new ContextFactory().enterContext().getImplementationVersion();
     if (! version.startsWith("Rhino 1.7.7 ")) {
-    	log.warn(RHINO_MISSING);
-    	log.warn(DISABLING_NODEJS_VERTICLES);
+    	log.warn(RHINO_MISSING + " => " + NODEJS_VERTICLES_DISABLED);
     	return false;
   	}
     return true;
