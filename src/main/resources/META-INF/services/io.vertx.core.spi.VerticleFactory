@@ -1,2 +1,2 @@
-com.bodhi.vertx.base.NodeJSServiceFactory
-com.bodhi.vertx.base.NodeJSVerticleFactory
+com.bodhi.vertx.nodejs.NodeJSServiceFactory
+com.bodhi.vertx.nodejs.NodeJSVerticleFactory

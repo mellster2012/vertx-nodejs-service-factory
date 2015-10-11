@@ -1,14 +1,13 @@
-package com.bodhi.vertx.base;
+package com.bodhi.vertx.nodejs;
 
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Future;
-import io.vertx.core.Verticle;
-import io.vertx.core.Vertx;
 import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.core.spi.VerticleFactory;
+import io.vertx.lang.js.JSVerticleFactory;
 
 import java.io.File;
 import java.io.InputStream;
@@ -20,28 +19,14 @@ import java.util.Scanner;
 
 /**
  * @author marcoellwanger
- * 
- * Experimental service factory to run node.js projects on the local fs
  */
-public class NodeJSServiceFactory extends NodeJSVerticleFactory {
+public class NodeJSServiceFactory extends JSVerticleFactory {
 	
-	private final Logger log = LoggerFactory.getLogger(NodeJSServiceFactory.class);
-	
-  private Vertx vertx;
-
-  @Override
-  public void init(Vertx vertx) {
-    this.vertx = vertx;
-  }
+	private final Logger LOG = LoggerFactory.getLogger(NodeJSServiceFactory.class);
 
   @Override
   public String prefix() {
     return "nodejs";
-  }
-  
-  @Override
-  public Verticle createVerticle(String verticleName, ClassLoader classLoader) throws Exception {
-    throw new IllegalStateException("Shouldn't be called");
   }
 
   @Override
@@ -83,8 +68,9 @@ public class NodeJSServiceFactory extends NodeJSVerticleFactory {
       deploymentOptions.setExtraClasspath(Collections.singletonList(file.getAbsolutePath()));
       deploymentOptions.setIsolationGroup("__vertx_maven_" + file.getName());
       super.resolve(main, deploymentOptions, urlc, resolution);
-    } catch (Exception e) {
-      resolution.fail(e);
+    } catch (Exception ex) {
+    	LOG.warn("Cannot resolve " + identifier, ex);
+      resolution.fail(ex);
     }
   }
 }
