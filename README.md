@@ -8,7 +8,7 @@ This README describes how to run node.js modules as verticles inside vert.x-x3.
 * If your distro contains a (org.mozilla) rhino version other than 1.7.7 inside /lib then remove the jar or rename it so it doesn't get included in the classpath
 * run mvn clean install on this project
 * From your local .m2/repository, **either**
- * copy com/bodhi/vertx/vertx-nodejs-service-factory/3.1.0-SNAPSHOT/vertx-nodejs-service-factory-3.1.0-SNAPSHOT-shaded.jar into /lib (shaded-jar option) **or**
+ * copy com/bodhi/vertx/vertx-nodejs-service-factory/3.1.0-SNAPSHOT/vertx-nodejs-service-factory-3.1.0-SNAPSHOT-fat.jar into /lib (shaded-jar option) **or**
  * copy commons-io/commons-io/2.4/commons-io-2.4.jar, io/apigee/trireme/trireme-core/0.8.6/trireme-core-0.8.6.jar, io/apigee/trireme/trireme-node10src/0.8.6/trireme-node10src-0.8.6.jar, io/apigee/trireme/trireme-node12src/0.8.6/trireme-node12src-0.8.6.jar, io/apigee/trireme/trireme-crypto/0.8.6/trireme-crypto-0.8.6.jar, io/apigee/trireme/trireme-util/0.8.6/trireme-util-0.8.6.jar, org/mozilla/rhino/1.7.7/rhino-1.7.7.jar, com/bodhi/vertx/vertx-nodejs-service-factory/3.1.0-SNAPSHOT/vertx-nodejs-service-factory-3.1.0-SNAPSHOT.jar into /lib (non-shaded-jar option)
 
 ### Test ###
