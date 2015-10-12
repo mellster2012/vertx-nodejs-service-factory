@@ -126,7 +126,7 @@
            <goal>shade</goal>
          </goals>
          <configuration>
-           <shadedClassifierName>shaded</shadedClassifierName>
+           <shadedClassifierName>fat</shadedClassifierName>
            <artifactSet>
              <includes>
                <include>io.apigee.trireme:*</include>
