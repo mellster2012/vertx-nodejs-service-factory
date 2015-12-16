@@ -4,7 +4,7 @@
 
  <groupId>com.bodhi.vertx</groupId>
  <artifactId>vertx-nodejs-service-factory</artifactId>
- <version>3.1.0</version>
+ <version>3.2.0</version>
  <packaging>jar</packaging>
 
  <name>vertx-nodejs-service-factory</name>
@@ -12,7 +12,7 @@
 
  <properties>
   <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  <vertx.version>3.1.0</vertx.version>
+  <vertx.version>3.2.0</vertx.version>
  </properties>
 
  <dependencies>
@@ -34,27 +34,27 @@
   <dependency>
    <groupId>io.apigee.trireme</groupId>
    <artifactId>trireme-core</artifactId>
-   <version>0.8.6</version>
+   <version>0.8.8</version>
   </dependency>
   <dependency>
    <groupId>io.apigee.trireme</groupId>
    <artifactId>trireme-node10src</artifactId>
-   <version>0.8.6</version>
+   <version>0.8.8</version>
   </dependency>
   <dependency>
    <groupId>io.apigee.trireme</groupId>
    <artifactId>trireme-node12src</artifactId>
-   <version>0.8.6</version>
+   <version>0.8.8</version>
   </dependency>
   <dependency>
    <groupId>io.apigee.trireme</groupId>
    <artifactId>trireme-crypto</artifactId>
-   <version>0.8.6</version>
+   <version>0.8.8</version>
   </dependency>
   <dependency>
    <groupId>io.apigee.trireme</groupId>
    <artifactId>trireme-util</artifactId>
-   <version>0.8.6</version>
+   <version>0.8.8</version>
   </dependency>
   <dependency>
    <groupId>commons-io</groupId>
