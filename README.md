@@ -4,7 +4,7 @@ This README describes how to run node.js modules as verticles inside vert.x-x3.
 
 ### Setup ###
 
-* Download [vert.x 3.1.0] (http://vertx.io) and unpack
+* Download [vert.x 3.2.0] (http://vertx.io) and unpack
 * If your distro contains a (org.mozilla) rhino version other than 1.7.7 inside /lib then remove the jar or rename it so it doesn't get included in the classpath
 * run mvn clean install on this project
 * From your local .m2/repository, **either**
